@@ -1,4 +1,4 @@
-import { KnitServer as Knit } from "@rbxts/knit";
+import { KnitServer as Knit, RemoteSignal } from "@rbxts/knit";
 import { ReplicaService, Replica } from "@rbxts/replicaservice";
 import { Players, ReplicatedStorage } from "@rbxts/services";
 import DataStore from "@rbxts/suphi-datastore";
@@ -17,6 +17,17 @@ declare global {
 const data = Knit.CreateService({
 
     Name: "data",
+    Client: {
+        getDataForPlayer(player: Player) {
+            const Replica = data.getReplicaFromPlayer(player)
+
+            if (Replica) {
+                return Replica.Data;
+            } else {
+                warn('Data hasnt loaded')
+            }
+        },
+    },
 
     replicas: new Map<number, Replica | undefined>(),
 

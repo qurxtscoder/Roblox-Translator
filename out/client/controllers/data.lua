@@ -7,6 +7,8 @@ local data = Knit.CreateController({
 	KnitInit = function(self)
 		ReplicaController.ReplicaOfClassCreated("PlayerData", function(replica)
 			print("PlayerData replica received! Received player money: " .. tostring(replica.Data.Money))
+			local DataServer = Knit.GetService("data")
+			print((DataServer:getDataForPlayerPromise():expect()))
 			replica:ListenToChange({ "Money" }, function(newValue)
 				print("Money changed: " .. tostring(newValue))
 			end)

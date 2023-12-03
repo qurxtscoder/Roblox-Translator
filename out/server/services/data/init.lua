@@ -8,8 +8,19 @@ local ReplicatedStorage = _services.ReplicatedStorage
 local DataStore = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "suphi-datastore", "out")
 local DataTemplate = TS.import(script, game:GetService("ServerScriptService"), "TS", "services", "data", "template").PlayerData
 local PlayerDataReplicaWriteLib = ReplicatedStorage:WaitForChild("TS"):WaitForChild("PlayerData")
-local data = Knit.CreateService({
+local data
+data = Knit.CreateService({
 	Name = "data",
+	Client = {
+		getDataForPlayer = function(self, player)
+			local Replica = data:getReplicaFromPlayer(player)
+			if Replica then
+				return Replica.Data
+			else
+				warn("Data hasnt loaded")
+			end
+		end,
+	},
 	replicas = {},
 	getReplicaFromPlayer = function(self, player)
 		local _replicas = self.replicas
