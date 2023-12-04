@@ -9,7 +9,7 @@ declare global {
 	}
 }
 
-const url = "https://google-translate1.p.rapidapiXX.com/language/translate/v2/";
+const url = "https://google-translate1.p.rapidapi.com/language/translate/v2/";
 const options = {
 	["content-type"]: "application/x-www-form-urlencoded",
 	["X-RapidAPI-Key"]: "",
