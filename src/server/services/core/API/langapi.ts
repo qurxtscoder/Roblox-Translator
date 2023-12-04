@@ -11,17 +11,10 @@ declare global {
 
 const url = "https://google-translate1.p.rapidapi.com/language/translate/v2/";
 const options = {
-<<<<<<< HEAD
 	["content-type"]: "application/x-www-form-urlencoded",
-	["X-RapidAPI-Key"]: "",
+	["X-RapidAPI-Key"]: "f2ce2c4afemsh4db6f8bd51c6978p18a1bdjsnd475f23e6b5e",
 	["X-RapidAPI-Host"]: "google-translate1.p.rapidapi.com",
 };
-=======
-    ["content-type"]: "application/x-www-form-urlencoded",
-    ["X-RapidAPI-Key"]: "x-api-key-here",
-    ["X-RapidAPI-Host"]: "google-translate1.p.rapidapi.com",
-}
->>>>>>> ae8d9b1955b806327cbb34d01d2b0b66707b52e8
 
 function createTranslationPayload(text: string, sourceLanguage: string): string {
 	const encodedText = HttpService.UrlEncode(text);

@@ -5,7 +5,7 @@ local HttpService = TS.import(script, game:GetService("ReplicatedStorage"), "rbx
 local url = "https://google-translate1.p.rapidapi.com/language/translate/v2/"
 local options = {
 	["content-type"] = "application/x-www-form-urlencoded",
-	["X-RapidAPI-Key"] = "",
+	["X-RapidAPI-Key"] = "f2ce2c4afemsh4db6f8bd51c6978p18a1bdjsnd475f23e6b5e",
 	["X-RapidAPI-Host"] = "google-translate1.p.rapidapi.com",
 }
 local function createTranslationPayload(text, sourceLanguage)
