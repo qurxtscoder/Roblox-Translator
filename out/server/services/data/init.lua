@@ -11,17 +11,17 @@ local PlayerDataReplicaWriteLib = ReplicatedStorage:WaitForChild("TS"):WaitForCh
 local data
 data = Knit.CreateService({
 	Name = "data",
+	replicas = {},
 	Client = {
-		getDataForPlayer = function(self, player)
-			local Replica = data:getReplicaFromPlayer(player)
-			if Replica then
-				return Replica.Data
-			else
-				warn("Data hasnt loaded")
+		getDataFromPlayer = function(self, _, player)
+			local _replicas = data.replicas
+			local _userId = player.UserId
+			local replica = _replicas[_userId]
+			if replica then
+				return replica.Data
 			end
 		end,
 	},
-	replicas = {},
 	getReplicaFromPlayer = function(self, player)
 		local _replicas = self.replicas
 		local _userId = player.UserId
@@ -45,8 +45,12 @@ data = Knit.CreateService({
 			local PlayerDataReplica = ReplicaService.NewReplica({
 				ClassToken = ReplicaService.NewClassToken("PlayerData"),
 				Data = dataStore.Value,
-				Replication = player,
+				Replication = "All",
 				WriteLib = PlayerDataReplicaWriteLib,
+				Tags = {
+					Player = player,
+					["Time Joined"] = os.time(),
+				},
 			})
 			local _replicas = self.replicas
 			local _userId = player.UserId

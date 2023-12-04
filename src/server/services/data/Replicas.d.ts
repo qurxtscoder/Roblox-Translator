@@ -6,8 +6,12 @@ declare global {
     PlayerData: {
       Data: {
         Money: number;
+        Gems: number;
       };
-      Tags: {};
+      Tags: {
+        "Player": Player,
+        "Time Joined": number
+      };
       WriteLib: typeof PlayerDataReplicaWriteLib;
       Player: Player
     };

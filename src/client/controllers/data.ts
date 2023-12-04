@@ -1,5 +1,4 @@
-import { KnitClient as Knit } from "@rbxts/knit";
-import { Player } from "@rbxts/knit/Knit/KnitClient";
+import { KnitClient as Knit, Signal } from "@rbxts/knit";
 import { ReplicaController } from "@rbxts/replicaservice";
 
 declare global {
@@ -8,23 +7,36 @@ declare global {
     }
 }
 
+declare global {
+    interface _G {
+        Replicas: { [player: string]: any };
+    }
+}
+
+const Client = Knit.Player
+
+_G.Replicas = {};
+
 const data = Knit.CreateController({
     Name: "data",
 
+    isClientLoaded: false,
+    clientLoaded: new Signal(),
+
     KnitInit() {
         ReplicaController.ReplicaOfClassCreated("PlayerData", (replica) => {
-            print(
-                `PlayerData replica received! Received player money: ${replica.Data.Money}`
-            );
-            const DataServer = Knit.GetService('data')
-            print(DataServer.getDataForPlayerPromise().expect())
+            const Player: Player = replica.Tags.Player;
+            const Name: string = Player.Name;
 
-            replica.ListenToChange(["Money"], (newValue) => {
-                print(`Money changed: ${newValue}`);
-            });
+            _G.Replicas[Name] = replica
+
+            if (Player === Client) {
+                this.clientLoaded.Fire(replica)
+                this.isClientLoaded = true;
+            }
         });
 
-        ReplicaController.RequestData(); // This function should only be called once in the entire codebase! Read the documentation for more information.
+        ReplicaController.RequestData();
     },
 
     KnitStart() {

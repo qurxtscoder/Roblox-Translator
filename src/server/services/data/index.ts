@@ -1,4 +1,4 @@
-import { KnitServer as Knit, RemoteSignal } from "@rbxts/knit";
+import { KnitServer as Knit } from "@rbxts/knit";
 import { ReplicaService, Replica } from "@rbxts/replicaservice";
 import { Players, ReplicatedStorage } from "@rbxts/services";
 import DataStore from "@rbxts/suphi-datastore";
@@ -17,19 +17,15 @@ declare global {
 const data = Knit.CreateService({
 
     Name: "data",
-    Client: {
-        getDataForPlayer(player: Player) {
-            const Replica = data.getReplicaFromPlayer(player)
-
-            if (Replica) {
-                return Replica.Data;
-            } else {
-                warn('Data hasnt loaded')
-            }
-        },
-    },
 
     replicas: new Map<number, Replica | undefined>(),
+
+    Client: {
+        getDataFromPlayer(_: Player, player: Player): PlayerData | undefined {
+            const replica = data.replicas.get(player.UserId);
+            if (replica) return replica.Data;
+        }
+    },
 
     getReplicaFromPlayer(player: Player): Replica | undefined {
         return this.replicas.get(player.UserId);
@@ -44,7 +40,7 @@ const data = Knit.CreateService({
     },
 
     KnitInit() {
-        Players.PlayerAdded.Connect((player) => {
+        Players.PlayerAdded.Connect((player: Player) => {
             const dataStore = new DataStore<PlayerData>("Player", tostring(player.UserId));
             const [success] = dataStore.Open(DataTemplate);
 
@@ -53,8 +49,12 @@ const data = Knit.CreateService({
             const PlayerDataReplica = ReplicaService.NewReplica({
                 ClassToken: ReplicaService.NewClassToken("PlayerData"),
                 Data: dataStore.Value,
-                Replication: player,
+                Replication: "All",
                 WriteLib: PlayerDataReplicaWriteLib,
+                Tags: {
+                    "Player": player,
+                    "Time Joined": os.time()
+                }
             });
 
             this.replicas.set(player.UserId, PlayerDataReplica);
@@ -65,7 +65,7 @@ const data = Knit.CreateService({
             }
         });
 
-        Players.PlayerRemoving.Connect((player) => {
+        Players.PlayerRemoving.Connect((player: Player) => {
             const dataStore = DataStore.find<PlayerData>("Player", tostring(player.UserId));
             dataStore?.Destroy();
 
