@@ -12,7 +12,7 @@ declare global {
 const url = "https://google-translate1.p.rapidapi.com/language/translate/v2/";
 const options = {
 	["content-type"]: "application/x-www-form-urlencoded",
-	["X-RapidAPI-Key"]: "f2ce2c4afemsh4db6f8bd51c6978p18a1bdjsnd475f23e6b5e",
+	["X-RapidAPI-Key"]: "",
 	["X-RapidAPI-Host"]: "google-translate1.p.rapidapi.com",
 };
 
