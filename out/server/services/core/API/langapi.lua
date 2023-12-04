@@ -2,10 +2,10 @@
 local TS = require(game:GetService("ReplicatedStorage"):WaitForChild("rbxts_include"):WaitForChild("RuntimeLib"))
 local Knit = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "knit", "Knit").KnitServer
 local HttpService = TS.import(script, game:GetService("ReplicatedStorage"), "rbxts_include", "node_modules", "@rbxts", "services").HttpService
-local url = "https://google-translate1.p.rapidapi.com/language/translate/v2/"
+local url = "https://google-translate1.p.rapidapiXX.com/language/translate/v2/"
 local options = {
 	["content-type"] = "application/x-www-form-urlencoded",
-	["X-RapidAPI-Key"] = "f2ce2c4afemsh4db6f8bd51c6978p18a1bdjsnd475f23e6b5e",
+	["X-RapidAPI-Key"] = "",
 	["X-RapidAPI-Host"] = "google-translate1.p.rapidapi.com",
 }
 local function createTranslationPayload(text, sourceLanguage)

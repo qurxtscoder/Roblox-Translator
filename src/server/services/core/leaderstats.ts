@@ -3,9 +3,38 @@ import { KnitServer as Knit } from "@rbxts/knit";
 import { Players, RunService } from "@rbxts/services";
 
 const abbreviator = new Abbreviator();
-abbreviator.setSetting('suffixTable', ['k', 'm', 'b', 't', 'qa', 'qi', 'sx', 'sp', 'oc', 'no', 'dd', 'ud', 'dd', 'td', 'qad', 'qid',
-    'sxd', 'spd', 'ocd', 'nod', 'vg', 'uvg', 'dvg', 'tvg', 'qavg', 'qivg', 'sxvg', 'spvg', 'ocvg']);
-abbreviator.setSetting('decimalPlaces', 2);
+abbreviator.setSetting("suffixTable", [
+    "k",
+    "m",
+    "b",
+    "t",
+    "qa",
+    "qi",
+    "sx",
+    "sp",
+    "oc",
+    "no",
+    "dd",
+    "ud",
+    "dd",
+    "td",
+    "qad",
+    "qid",
+    "sxd",
+    "spd",
+    "ocd",
+    "nod",
+    "vg",
+    "uvg",
+    "dvg",
+    "tvg",
+    "qavg",
+    "qivg",
+    "sxvg",
+    "spvg",
+    "ocvg",
+]);
+abbreviator.setSetting("decimalPlaces", 2);
 
 declare global {
     interface KnitServices {
@@ -17,13 +46,10 @@ const leaderstats = Knit.CreateService({
     Name: "leaderstats",
 
     emojis: {
-        "Money": "💰",
-        "Gems": "💎",
+        Money: "💰",
+        Gems: "💎",
     },
-    stats: [
-        "Money",
-        "Gems"
-    ],
+    stats: ["Money", "Gems"],
 
     updateLeaderstatsForPlayer(player: Player) {
         const data = Knit.GetService("data");
@@ -32,15 +58,15 @@ const leaderstats = Knit.CreateService({
         const leaderstats = player.FindFirstChild("leaderstats");
         if (leaderstats === undefined) return;
         for (const [key, value] of pairs(replica.Data)) {
-            const emoji = this.emojis[key]
-            const stat = leaderstats.FindFirstChild(`${emoji && emoji + " " || ""}${key}`) as StringValue;
+            const emoji = this.emojis[key];
+            const stat = leaderstats.FindFirstChild(`${(emoji && emoji + " ") || ""}${key}`) as StringValue;
             if (stat === undefined) continue;
             stat.Value = abbreviator.numberToString(value);
         }
     },
 
     KnitInit() {
-        const data = Knit.GetService("data")
+        const data = Knit.GetService("data");
 
         const playerAdded = (player: Player) => {
             let replica = data.getReplicaFromPlayer(player);
@@ -55,12 +81,12 @@ const leaderstats = Knit.CreateService({
             for (const [key, value] of pairs(replica.Data)) {
                 if (!this.stats.includes(key)) continue;
                 const stat = new Instance("StringValue");
-                const emoji = this.emojis[key]
-                stat.Name = `${emoji && emoji + " " || ""}${key}`;
+                const emoji = this.emojis[key];
+                stat.Name = `${(emoji && emoji + " ") || ""}${key}`;
                 stat.Value = abbreviator.numberToString(value);
                 stat.Parent = leaderstats;
             }
-        }
+        };
 
         Players.PlayerAdded.Connect(playerAdded);
 
@@ -77,7 +103,7 @@ const leaderstats = Knit.CreateService({
                 }
                 task.wait(0.1);
             }
-        })
+        });
     },
 });
 
