@@ -1,5 +1,5 @@
 import { Replica } from "@rbxts/replicaservice";
-import PlayerDataReplicaWriteLib from "../../../shared/PlayerData";
+import PlayerDataReplicaWriteLib from "../PlayerData";
 
 declare global {
   interface Replicas {
@@ -17,5 +17,5 @@ declare global {
     };
   }
 }
-
+//testing!
 export type PlayerDataReplica = Replica<"PlayerData">;

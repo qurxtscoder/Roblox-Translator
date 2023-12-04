@@ -1,5 +1,5 @@
 import { KnitClient as Knit } from "@rbxts/knit";
-import { PlayerDataReplica } from "server/services/data/Replicas";
+import { PlayerDataReplica } from "shared/data/Replicas";
 
 declare global {
     interface KnitControllers {

@@ -1,4 +1,4 @@
-import { PlayerDataReplica } from "../server/services/data/Replicas";
+import { PlayerDataReplica } from "./data/Replicas";
 
 export = {
     ChangeMoney: (
